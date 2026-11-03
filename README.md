@@ -75,24 +75,9 @@ python code/persistence.py weights/original.npz rebuilt_persistence.npz
 
 Its SHA-256 is `04a6d67331bc97ae3102e4849e178e680ab8d86a20f33e6370f85a1163f33354`. The [manifest](data/manifest.json) records provenance and hashes. Full conventions and seeds are in [REPRODUCIBILITY.txt](REPRODUCIBILITY.txt).
 
-## View or rebuild the reports
+## View the reports
 
-The report is a static site, with no external JavaScript dependencies. Open `index.html` after downloading the complete repository, or serve it locally:
-
-```bash
-python3 -m http.server 8000 --bind 127.0.0.1
-```
-
-Then open `http://127.0.0.1:8000/`. The PDF and web report share the manuscript in `report_source/manuscript.py`; all figures and animations are checked in.
-
-```bash
-python -m pip install -r report_source/requirements.txt
-python report_source/render_paper.py web
-python report_source/render_paper.py pdf
-python code/package.py
-```
-
-The last command refreshes the hash manifest and reproducibility ZIP. It does not rerun simulations. GitHub Pages serves `main` from the repository root; `.nojekyll` keeps the site as plain static files.
+Read the [interactive web report](https://stenichele.github.io/NCA-weight-space-reprogramming/) or download the [PDF](report.pdf). To view the web report offline, download the complete repository and open `index.html`; keep its figures and animations alongside it.
 
 ## Repository contents
 
