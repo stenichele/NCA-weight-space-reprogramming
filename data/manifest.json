@@ -53,7 +53,7 @@
     "REPRODUCIBILITY.txt": "8ae88d72d3bab1ba6813146412daa7862d70c4d275f2461f9e4883916ed2cced",
     "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
     "NOTICE.md": "92e76131cf2fc42d8b9fffa4c7b53669c5932ee01f42585f462ae765ff3f3163",
-    "CITATION.cff": "c13a4d062c410034a665bbde61c7f03e959a6eb6ceffc66013286f29211a106d"
+    "CITATION.cff": "9103f90386f7493164467c58540a0e83ad35a06904c3b71cb1cfe0898a5bd386"
   },
   "repository": "https://github.com/stenichele/NCA-weight-space-reprogramming",
   "web_report": "https://stenichele.github.io/NCA-weight-space-reprogramming/"
