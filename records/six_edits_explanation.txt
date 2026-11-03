@@ -1,0 +1,26 @@
+Excerpt of Astra’s submitted explanations for the six retained edits. The superseded persistence proposal is omitted.
+
+One-shot Model A weight-only submission
+
+Scope and provenance
+Only the supplied model_A.txt was read. Its four arrays were parsed for weight-norm inspection. No state, simulator, image, trajectory, external source, forward pass, training, optimization, search over edits, or evaluator feedback was used. The seven candidates are independent copies of the original weights. No architecture or runtime setting changes. The gecko label does not enter the numerical edits.
+
+1. blue: exchange channels 1 and 2.
+For each of the state, dx and dy input blocks, swap the green and blue rows of W1. Swap the corresponding W2 columns and b2 entries. Leave b1 unchanged. This conjugates the entire dynamics by the green/blue permutation, including color feedback. Alpha and hidden state are unchanged, as is the seed, whose RGB entries are zero. Predicted outcome: the same morphology with green and blue exchanged. Very high confidence in the algebra; numerical differences can accumulate. Merely swapping output columns would not preserve feedback and is deliberately avoided.
+
+2. swap_red_green: exchange channels 0 and 1 with the same full conjugation.
+Predicted outcome: identical morphology with red/green exchanged. Very high algebraic confidence. Both RGB swaps commute with the alpha life mask and display channel clipping, and white is permutation-invariant. They are exact for coupled identical update masks in ideal arithmetic.
+
+3. mirror_horizontal: negate W1 rows 16:32 (the dx block).
+Horizontal reflection reverses the x derivative and preserves the y derivative. Everything else is untouched. Predicted outcome: horizontal reflection, hence opposite facing direction as explicitly defined. Very high confidence in the symmetry algebra.
+
+4. rotate_90_clockwise: replace W1 dx block with minus the original dy block, and its dy block with the original dx block.
+In screen coordinates, clockwise maps (x,y) to (-y,x). For a rotated scalar channel, dx_new=-dy_old and dy_new=dx_old. Thus the new input combination dx_new*(-Wdy)+dy_new*Wdx equals the original derivative combination. Predicted outcome: whole morphology rotated clockwise by 90 degrees. Very high algebraic confidence.
+
+5. rotate_180: negate both derivative blocks, W1 rows 16:48.
+Predicted outcome: 180-degree rotation. Very high algebraic confidence.
+Spatial caveats: square-domain symmetries and the center seed must transform consistently; on even grids an index-centered rotation/reflection can shift the single seed one cell relative to the chosen geometric center. The isotropic 3x3 life rule and Sobel pair respect these lattice symmetries. With spatially transformed random update masks, symmetry is pathwise in ideal arithmetic; with independent masks it is distributional, not an assertion of pixelwise equality between two independent samples. Rectangular domains require rotation of the domain itself for an exact 90-degree global equivalence; morphology away from boundaries should still obey the local construction.
+
+6. grow_half_speed: multiply every entry of W2 and b2 by 0.5.
+This halves the residual vector at any fixed state and retains the .5 update probability. Predicted outcome: approximately doubled time to reach the developed gecko, if its dynamics tolerate smaller updates. Medium confidence for approximate slowing, lower for precise 2x developmental timing. This is a smaller Euler step, not an exact discrete time reparameterization: stochastic variance, nonlinear trajectories, and the thresholded life mask can change. No claim that this fixes long-term persistence.
+

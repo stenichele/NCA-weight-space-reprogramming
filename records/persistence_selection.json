@@ -1,0 +1,146 @@
+{
+  "selected_evaluation_id": 32,
+  "candidate_hash": "04a6d67331bc97ae3102e4849e178e680ab8d86a20f33e6370f85a1163f33354",
+  "weights_sha256": "04a6d67331bc97ae3102e4849e178e680ab8d86a20f33e6370f85a1163f33354",
+  "original_sha256": "8667449a9807700f7772634b23eac6af30f773537e0cbfab53a4dd05a1299466",
+  "new_budget_used": 36,
+  "new_budget_limit": 36,
+  "new_grid_forward_passes": 147456,
+  "new_rollouts": 72,
+  "prior_evaluations": 12,
+  "cumulative_evaluations": 48,
+  "cumulative_grid_forward_passes": 196608,
+  "development_pass_runs": 2,
+  "development_total_runs": 2,
+  "maturity_times": [
+    64,
+    64
+  ],
+  "development_metrics": {
+    "256": {
+      "iou": [
+        0.9385065885797951,
+        0.9399707174231332
+      ],
+      "foreground_rgb_rmse": [
+        0.10122563273989127,
+        0.09524692421203618
+      ],
+      "alpha_mass_ratio": [
+        0.9782351851463318,
+        0.9638816714286804
+      ]
+    },
+    "512": {
+      "iou": [
+        0.9385065885797951,
+        0.9399707174231332
+      ],
+      "foreground_rgb_rmse": [
+        0.10122563273989127,
+        0.09524692421203618
+      ],
+      "alpha_mass_ratio": [
+        0.9782351851463318,
+        0.9638816714286804
+      ]
+    },
+    "1024": {
+      "iou": [
+        0.9385065885797951,
+        0.9399707174231332
+      ],
+      "foreground_rgb_rmse": [
+        0.101225637337877,
+        0.09524692421203618
+      ],
+      "alpha_mass_ratio": [
+        0.9782351851463318,
+        0.9638816714286804
+      ]
+    },
+    "2048": {
+      "iou": [
+        0.9385065885797951,
+        0.9399707174231332
+      ],
+      "foreground_rgb_rmse": [
+        0.10122563273989127,
+        0.09524692421203618
+      ],
+      "alpha_mass_ratio": [
+        0.9782351851463318,
+        0.9638816714286804
+      ]
+    }
+  },
+  "selection_reason": "Interior clock scale and transition gain, strong margins, bounded state and complete autonomous arrest. Prefer lower gain250 over1000; do not select noisy stress samples or chase tiny equivalent-construction score changes.",
+  "predicted_held_out_result": "Predict 7-8 of 8 new stochastic trajectories pass at 2048, and those passing remain visually stable through 8192. No held-out observations from this new experiment have been received.",
+  "honest_confidence": "Moderately high, not certainty. Subjective probability of >=7/8 passes at 2048 is about 80%; about 75% for >=7/8 through 8192. Only two fixed developmental seeds were available. Parameter/neighborhood tests support the mechanism but are not independent-seed validation.",
+  "limitations": [
+    "Appearance preservation by autonomous arrest, not regeneration or continued active self-repair.",
+    "New random development could produce a malformed boundary or late peripheral growth.",
+    "Clock uses precise algebraic identities; arbitrary edits to already-constructed weights need not preserve them.",
+    "Prior12-evaluation outcomes and their held-out feedback informed this continuation; it is not a clean36-query from-scratch comparison."
+  ],
+  "reproduction_arrays_equal": true,
+  "reproduction_npz_sha256_equal": true,
+  "max_abs_state_across_saved_snapshots": 6.707742691040039,
+  "max_abs_state_change_512_to_2048_per_channel": [
+    0.0,
+    0.0,
+    2.3096799850463867e-07,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "saved_diagnostics": {
+    "256": {
+      "foreground_normal_hidden_max": 0.0,
+      "foreground_nonblue_delta_max": 0.0,
+      "foreground_q_min_median_max": [
+        -0.010020539164543152,
+        -0.010020412504673004,
+        -0.01002027839422226
+      ]
+    },
+    "512": {
+      "foreground_normal_hidden_max": 0.0,
+      "foreground_nonblue_delta_max": 0.0,
+      "foreground_q_min_median_max": [
+        -0.010020539164543152,
+        -0.010020405054092407,
+        -0.01002027839422226
+      ]
+    },
+    "1024": {
+      "foreground_normal_hidden_max": 0.0,
+      "foreground_nonblue_delta_max": 0.0,
+      "foreground_q_min_median_max": [
+        -0.010020539164543152,
+        -0.010020412504673004,
+        -0.010020270943641663
+      ]
+    }
+  },
+  "all_evaluations_two_pass_count": 22,
+  "all_evaluations_one_pass_count": 2,
+  "all_evaluations_zero_pass_count": 12,
+  "changed_parameters_per_array": {
+    "W1": 1269,
+    "b1": 3,
+    "W2": 173,
+    "b2": 16
+  },
+  "total_parameter_count": 8336
+}

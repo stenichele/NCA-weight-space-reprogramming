@@ -1,0 +1,48 @@
+FINAL COMMITMENT BEFORE NEW HELD-OUT TESTS
+
+Selected checkpoint: evaluation 32, final/selected.npz.
+SHA256: 04a6d67331bc97ae3102e4849e178e680ab8d86a20f33e6370f85a1163f33354
+
+RESULT
+Both development trajectories pass every predeclared criterion. Both first mature at step 64. At steps 256, 512, 1024 and 2048, silhouette IoU remains 0.9385066 / 0.9399707; foreground RGB RMSE is approximately 0.1012256 / 0.0952469; alpha-mass ratio is 0.9782352 / 0.9638817. The organism develops and then autonomously arrests. This is appearance preservation, not a demonstration of regeneration or continued active homeostasis.
+
+The arrest is supported by saved computations, not just similar pictures. At steps 256, 512 and 1024, all 125 remaining original hidden neurons have exactly zero activation on foreground cells, and every non-blue output delta is exactly zero there. Across the entire saved grid, every non-blue state channel is bitwise unchanged from 512 to 2048. The maximum blue change is 2.31e-7. The largest absolute state in any saved snapshot is 6.70775. The internal timer is bounded. No runtime freeze or change to the simulation was used.
+
+WHAT CHANGED
+The original 48-input, 128-ReLU, 16-output architecture is intact. The seed, firing probability, boundaries, rendering, alive mask and recurrence are unchanged. Only the four weight/bias arrays were edited. The exact static construction is in build_selected.py.
+
+1. Use partial RGB redundancy to make a timer coordinate q = B - R + 0.2 G. In the developmental network, substitute B = R - 0.2 G in identity and Sobel perceptions, and make its blue output increment equal to its red increment minus 0.2 times its green increment. The ordinary developmental network then preserves q in exact arithmetic. The initial seed and new zero cells have q = 0. This color relation was a hand-chosen simple approximation, not a fitted regression.
+
+2. Repurpose three existing hidden units: unit 100 is a timer trigger, unit 16 provides timer saturation, and unit 6 carries the output bias behind a state-dependent gate. The other 125 units retain the original developmental computation after the color substitution, with an additional 500 q in each preactivation.
+
+3. The timer's unmasked scalar increment is
+   dq = -250 ReLU(-q - a) + 251 ReLU(-q - a - w) - epsilon,
+   where a = 1e-5, w = (0.01002 - 0.00001)/251,
+   and epsilon = 2.5e-7.
+   It first drifts very slowly, reaching the trigger after approximately 40 cell firings (about 80 simulation steps for a continuously surviving cell). It then moves rapidly to a bounded negative value. Beyond the second hinge, dq = -q - a - 251 w - epsilon, so one firing returns q to approximately -0.01002025. Float32 rounding produces the tiny observed residual variation. Each cell's timer starts as it becomes part of the living region, so late-grown cells get development time too.
+
+4. The original output bias is moved into unit 6, whose activation is
+   ReLU(0.1 + 0.02(alpha - 0.8) + 500 q),
+   and whose output vector is the color-substituted original bias divided by 0.1. All external output biases are zero except the tiny blue timer drift. The mild alpha dependence reduces positive bias at low-opacity frontiers; this stopped peripheral growth that occurred in some earlier latch variants.
+
+5. At the negative timer equilibrium, the ordinary preactivations receive approximately -5.01. This switches off their updates and the bias carrier after development. The timer itself remains in a stable bounded regime. The small final blue offset retains color much better than the early unbounded-clock attempt, which clipped blue to zero.
+
+WHY THIS CHECKPOINT
+Evaluation 32 uses an interior transition gain and timer scale with strong margins. Gain 64, 250 and 1000 constructions all passed. Half-scale and double-scale clock coordinates produced almost identical passing shapes, as did constructing the same algebra in float64 before rounding to float32. Earlier versions of this same mechanism passed over meaningful clock-rate and gate-strength ranges. Paired developmental-weight perturbations of +/-1e-4, a 1e-3 stress perturbation, and a mathematically equivalent hidden-unit permutation also passed when the timer identities were preserved. Those tests used the same two development seeds: they support the mechanism but are not independent-seed validation.
+
+I selected the central-scale gain-250 construction rather than a perturbed sample or the tiny highest-scoring numerical variant. Arbitrary perturbations to the completed engineered arrays were not tested and need not preserve its exact timer identities.
+
+EXPERIMENT RECORD AND FAILURES
+All 36 new evaluations were used: 72 rollouts of 2048 steps, or 147,456 grid forward passes. Together with the prior 12 evaluations, the informed research sequence totals 48 evaluations and 196,608 grid forward passes. This is not a clean 36-query from-scratch experiment. The supplied prior baseline, previous best and prior held-out failure informed the new work; the separately trained persistent control was never accessed.
+
+Across the 36 new candidates, 22 passed both development trajectories, 2 passed one, and 12 passed neither. All hypotheses were logged before the corresponding evaluation. All failed candidates and archived evaluator outputs remain preserved. all_results.csv gives a concise row for every candidate; all_results.json includes checkpoint hashes and the four required time-point metrics.
+
+The initial blue representation alone preserved development but collapsed later. Slow or poorly bounded latches distorted the organism. A hidden-space projection, exact near-null output projection, and low-rank restoring feedback did not solve persistence. The first useful arrest mechanism appeared at evaluation 9 but failed color tolerance. A bounded small-blue latch first passed both trajectories at evaluation 13. Donor selection, a better simple color relation and the alpha-dependent bias gate improved its margins. Later calls tested robustness and numerical behavior rather than hiding failures or repeatedly evaluating new seeds.
+
+No training, gradients, fitted regression, optimizer, automated sweep, external checkpoint or unmetered forward/layer evaluation was used. Static diagnostics included weight SVD, state covariance eigendecomposition, saved activations, state statistics and saved output deltas. The spectral experiments were unsuccessful and are not part of the selected construction. Every network evaluation was through the budgeted evaluator.
+
+PREDICTION AND LIMITS
+Before any new held-out feedback, I predict 7-8 of 8 unseen trajectories will pass at 2048, with passing organisms remaining visually stable through 8192. Subjective confidence in the >=7/8 target is about 80% at 2048 and 75% through 8192. This is a moderately confident prediction, not an observed result. Only two fixed developmental trajectories were available. The principal remaining risk is different stochastic development producing a malformed boundary or a late peripheral growth chain before all cells arrest. Once the selected trajectory has reached the observed quiescent configuration, the analytical mechanism and exact saved non-blue zeros support continued stability.
+
+REPRODUCIBILITY
+Run build_selected.py with an original.npz input path and output NPZ path. It performs only static NumPy weight algebra. Rebuilding here produced arrays exactly equal to the archived evaluation-32 weights and an identical serialized NPZ SHA256. The reproduction check used no forward budget. This checkpoint is committed before the new held-out test and will not be revised afterward.
