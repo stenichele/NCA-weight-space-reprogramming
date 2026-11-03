@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the research report below."
+type: article
+title: "Weight space reprogramming of neural cellular automata"
+authors:
+  - family-names: Nichele
+    given-names: Stefano
+    affiliation: "Østfold University of Applied Sciences (Norway); Simula AI Safety (Norway)"
+    email: stefano.nichele@hiof.no
+year: 2026
+date-released: 2026-11-03
+url: "https://github.com/stenichele/NCA-weight-space-reprogramming"
+repository-code: "https://github.com/stenichele/NCA-weight-space-reprogramming"
+abstract: "Direct weight editing of a local recurrent neural cellular automaton with GPT-6 Astra, including color, orientation, growth speed and autonomous arrest experiments."
+keywords:
+  - neural cellular automata
+  - weight space programming
+  - neural network editing
+  - large language models

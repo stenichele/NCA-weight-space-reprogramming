@@ -1,0 +1,67 @@
+WEIGHT SPACE REPROGRAMMING OF NEURAL CELLULAR AUTOMATA
+Stefano Nichele | Østfold University of Applied Sciences (Norway)
+Simula AI Safety (Norway) | stefano.nichele@hiof.no
+3 November 2026
+
+Open index.html in a browser. Keep assets/ and animations/ alongside it.
+The PDF contains still frames; web animations can be played and scrubbed offline.
+This package contains seven edits, original weights, and a trained positive control.
+No reading experiment or superseded persistence checkpoint is included.
+
+REPRODUCE (from this directory)
+  python3 -m venv .venv
+  .venv/bin/pip install -r code/requirements.txt
+  .venv/bin/python code/evaluate.py --experiment check
+  .venv/bin/python code/evaluate.py --experiment symmetry
+  .venv/bin/python code/evaluate.py --experiment speed
+  .venv/bin/python code/evaluate.py --experiment persistence
+Use --experiment all for all tests and --output PATH for JSON results.
+The persistence test runs 3 x 8 x 8192 grid updates and can take substantial time.
+The check mode verifies all seven reconstructed checkpoints by exact array equality,
+without simulation. Evaluation runs are not extra feedback to the editing model.
+Original runtime: Python 3.13, NumPy 2.5.4, SciPy 1.18.1; float32 weights/states.
+Different BLAS implementations can introduce small floating-point differences.
+
+WEIGHT CONSTRUCTIONS
+code/edits.py is a curated excerpt of Astra's submitted builder, containing only
+the six retained edits. code/persistence.py is the exact committed reconstruction
+of selected new-stage evaluation 32; run:
+  .venv/bin/python code/persistence.py weights/original.npz rebuilt.npz
+The generic build() defaults are not the selected construction; use build_selected().
+All arrays have keys W1 (48,128), b1 (128,), W2 (128,16), b2 (16,).
+The repository license is LICENSE (Apache 2.0). Upstream Distill material retains
+CC BY 4.0 attribution and terms in code/SOURCE_LICENSE; see NOTICE.md.
+
+PROTOCOL
+GPT-6 Astra, identifier gpt-6-astra, used 3 November 2026. No immutable snapshot,
+temperature, top_p or generation seed was recorded; reasoning setting was inherited.
+Six edits were submitted without rollout feedback. Persistence used 36 NEW adaptive
+evaluations, each two fixed-seed 2048-step rollouts: 72 rollouts, 147456 individual
+grid-time passes, or 73728 batch-of-two calls. The stage inherited an existing
+context with 12 prior evaluations; it was not a cold-start 36-total-query study.
+No gradients, training, fitted regression, optimizer or automated parameter sweep.
+Restrictions were instructional and metered, not adversarial process isolation.
+Model feedback used seed 391071. Final selection preceded held-out seed 73510991.
+Six-edit reference seed 20261103; independent stochastic comparison seed 20261104.
+The eight realizations are stochastic trajectories, not independent model attempts.
+
+SIMULATION AND METRICS
+65x65 zero-padded grid; 16 state channels; center alpha/hidden seed 1, RGB 0.
+Identity and Sobel /8 perception; shared 128-ReLU residual network; cell fire p=.5.
+Pre/post alive masks: neighborhood max alpha >=.1. Metric foreground: alpha >.1.
+Display: clip RGBA to [0,1], composite premultiplied RGB + 1-alpha, clip again.
+IoU and RGB RMSE use union foreground; alpha mass uses clipped alpha sums.
+Persistence compares each run against the corresponding original state at step 96.
+Maturity by 256: IoU>=.85, RGB RMSE<=.15, sampled every eight steps.
+Persistence: IoU>=.8, RGB RMSE<=.15, alpha-mass ratio .8 to 1.2 at all checkpoints.
+Checkpoints: 256,512,1024,2048,3072,4096,6144,8192; experiment pass >=7/8 runs.
+Simulator does not reproduce quantized WebGL activations or periodic boundaries.
+Selected persistence was not retested on original full-precision checkpoints.
+Arrest is finite-horizon appearance retention, not demonstrated self-repair.
+
+RECORDS
+records/ provides Astra's submitted hypotheses, observations and rationale, not
+private internal chain-of-thought. data/ contains recorded per-run evaluation,
+search results, visualization provenance and hashes. Growth animations use uniform
+four-step spacing; persistence playback has labeled unequal checkpoint intervals.
+Visualizations were additional evaluator replays with no feedback to Astra.
