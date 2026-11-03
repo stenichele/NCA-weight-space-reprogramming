@@ -1,0 +1,10 @@
+{
+  "growth_animation_seed": 20261103,
+  "batch": 8,
+  "steps": 256,
+  "capture_every": 4,
+  "growth_playback": "Uniform time intervals; final frame held for readability",
+  "persistence_playback": "Recorded held-out checkpoints at unequal time intervals; never presented as uniform time",
+  "persistence_seed": 73510991,
+  "additional_runs": "Evaluator replays for visualization and dense speed/color plots; no feedback to Astra or changes to submitted weights."
+}
